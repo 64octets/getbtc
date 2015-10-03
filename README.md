@@ -12,7 +12,6 @@
  - total_sent = 0
  - total_received = 0
  - final_balance = 0
- - address = 1D5eGqKgr5K15Zf9bBVJoMvZTj5mspEgw1
  - hash160 = 8482498436372b1a573a912fcc97674e6f580306
  - txs = []
  - n_tx = 0
