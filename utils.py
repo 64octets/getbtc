@@ -4,9 +4,6 @@ import ecdsa.util
 import hashlib
 import requests
 
-
-
-
 b58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 def base58CheckEncode(version, payload):
