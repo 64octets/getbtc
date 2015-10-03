@@ -1,14 +1,15 @@
 import ecdsa
 import ecdsa.der
 import ecdsa.util
-import hashlib
-import requests
+from hashlib import sha256
+from hashlib import new
+from requests import get
 
 b58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 def base58CheckEncode(version, payload):
     s = chr(version) + payload
-    checksum = hashlib.sha256(hashlib.sha256(s).digest()).digest()[0:4]
+    checksum = sha256(sha256(s).digest()).digest()[0:4]
     result = s + checksum
     leadingZeros = countLeadingChars(result, '\0')
     return '1' * leadingZeros + base58encode(base256decode(result))
@@ -18,7 +19,7 @@ def base58CheckDecode(s):
     s = base256encode(base58decode(s))
     result = '\0' * leadingOnes + s[:-4]
     chk = s[-4:]
-    checksum = hashlib.sha256(hashlib.sha256(result).digest()).digest()[0:4]
+    checksum = sha256(sha256(result).digest()).digest()[0:4]
     assert(chk == checksum)
     version = result[0]
     return result[1:]
@@ -71,14 +72,14 @@ def wifToPrivateKey(s):
     return b.encode('hex')
 
 def pubKeyToAddr(s):
-    ripemd160 = hashlib.new('ripemd160')
-    ripemd160.update(hashlib.sha256(s.decode('hex')).digest())
+    ripemd160 = new('ripemd160')
+    ripemd160.update(sha256(s.decode('hex')).digest())
     return base58CheckEncode(0, ripemd160.digest())
 
 class getInfo(object):
 	def __init__(self, addr):
 		self.addr = addr
-		self.data = requests.get('https://blockchain.info/address/%s?format=json' % self.addr).json()
+		self.data = get('https://blockchain.info/address/%s?format=json' % self.addr).json()
 	def display(self):
 		for i in self.data:
 			if not i == 'address':
