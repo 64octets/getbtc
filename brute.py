@@ -89,7 +89,7 @@ while not done:
 		print "ADDR: " + address
 		print "BAL: " + str(bal)
 		print
-		if bal == 0:
+		if bal > 0:
 			print "[$$$$$$$$$$$$$$$]"
 			with open('btc.list', 'a+') as btclist:
 				btclist.write('\n' + "PK: " + private_key + '\n' + "WIF: " +wif + '\n' + "ADDR: " +address + '\n' + "BAL: " + str(bal) + '\n')
