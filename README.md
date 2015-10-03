@@ -15,3 +15,5 @@
  - hash160 = 8482498436372b1a573a912fcc97674e6f580306
  - txs = []
  - n_tx = 0
+
+Disclaimer: This is for educational purposes only. No responsibility is held or accepted for misuse.
