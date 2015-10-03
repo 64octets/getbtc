@@ -4,16 +4,6 @@ import ecdsa.util
 import hashlib
 import requests
 
-class getInfo(object):
-	def __init__(self, addr):
-		self.addr = addr
-		self.data = requests.get('https://blockchain.info/address/%s?format=json' % self.addr).json()
-	def display(self):
-		for i in self.data:
-			if not i == 'address':
-				print str(i) + " = " + str(self.data[i])
-	def balance(self):
-		return float(self.data[u'final_balance'])
 
 
 
@@ -87,3 +77,14 @@ def pubKeyToAddr(s):
     ripemd160 = hashlib.new('ripemd160')
     ripemd160.update(hashlib.sha256(s.decode('hex')).digest())
     return base58CheckEncode(0, ripemd160.digest())
+
+class getInfo(object):
+	def __init__(self, addr):
+		self.addr = addr
+		self.data = requests.get('https://blockchain.info/address/%s?format=json' % self.addr).json()
+	def display(self):
+		for i in self.data:
+			if not i == 'address':
+				print str(i) + " = " + str(self.data[i])
+	def balance(self):
+		return float(self.data[u'final_balance'])
