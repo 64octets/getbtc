@@ -91,7 +91,7 @@ while not done:
 		try:
 			bal = balance(address)
 		except:
-			bal = 00
+			bal = -1
 			pass
 		if logging:
 			log_file.write('\n' + "PK: " + private_key + '\n' + "WIF: " +wif + '\n' + "ADDR: " +address + '\n' + "BAL: " + str(bal) + '\n')
