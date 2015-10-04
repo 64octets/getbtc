@@ -6,6 +6,7 @@ from hashlib import new
 from requests import get 
 
 b58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+logging = 1
 
 def balance(addr):
 	data = get('https://blockchain.info/address/%s?format=json' % addr).json()
@@ -76,23 +77,37 @@ def wifToPrivateKey(s):
     b = base58CheckDecode(s)
     return b.encode('hex')
 
-done = False
+if logging:
+	log_file = open('btc.log', 'a+')
 
+done = False
+found = 0
+attempts = 0
 while not done:
 	try:
 		private_key = ''.join(['%x' % randrange(16) for x in range(0, 64)])
 		wif = base58CheckEncode(0x80, private_key.decode('hex'))
 		address = pubKeyToAddr(privateKeyToPublicKey(wifToPrivateKey(wif)))
-		bal = balance(address)
+		try:
+			bal = balance(address)
+		except:
+			bal = 00
+			pass
+		if logging:
+			log_file.write('\n' + "PK: " + private_key + '\n' + "WIF: " +wif + '\n' + "ADDR: " +address + '\n' + "BAL: " + str(bal) + '\n')
 		print "PK: " + private_key
 		print "WIF: " + wif
 		print "ADDR: " + address
 		print "BAL: " + str(bal)
+		print "A: " + str(attempts)
+		print "F: " + str(found)
 		print
 		if bal > 0:
 			print "[$$$$$$$$$$$$$$$]"
 			with open('btc.list', 'a+') as btclist:
 				btclist.write('\n' + "PK: " + private_key + '\n' + "WIF: " +wif + '\n' + "ADDR: " +address + '\n' + "BAL: " + str(bal) + '\n')
+				found = found + 1
+		attempts = attempts + 1
 	except KeyboardInterrupt:
 		print "[!] USER EXITED [!]"
 		done = True
