@@ -15,7 +15,7 @@ if args.n:
 		wif = utils.base58CheckEncode(0x80, private_key.decode('hex'))
 		address = utils.pubKeyToAddr(utils.privateKeyToPublicKey(utils.wifToPrivateKey(wif)))
 		fp.write("PK: " + private_key + '\n' + "WIF: " +wif + '\n' + "ADDR: " +address+'\n')
-	fp.close()
-	print "File successfully closed."
+fp.close()
+print "File successfully closed."
 print "Exiting."
 exit()
