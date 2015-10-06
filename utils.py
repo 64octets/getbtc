@@ -75,11 +75,12 @@ def pubKeyToAddr(s):
     ripemd160 = new('ripemd160')
     ripemd160.update(sha256(s.decode('hex')).digest())
     return base58CheckEncode(0, ripemd160.digest())
-
+url = 'http://www.example.com/addr/%s'
 class getInfo(object):
 	def __init__(self, addr):
 		self.addr = addr
-		self.data = get('https://blockchain.info/address/%s?format=json' % self.addr).json()
+	#	self.data = get('https://blockchain.info/address/%s?format=json' % self.addr).json()
+		self.data = get(url % self.addr).json()
 	def display(self):
 		for i in self.data:
 			if not i == 'address':
